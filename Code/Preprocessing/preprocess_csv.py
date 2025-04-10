@@ -95,25 +95,25 @@ def Label_Data_Rule_Based(row):
 
     return labels
 
+if __name__ == "__main__":
+    CWD = os.getcwd()
+    file = 'Data/recipes_data.csv'
+    filepath = os.path.join(CWD, file)
+    print(filepath)
 
-CWD = os.getcwd()
-file = 'Data/recipes_data.csv'
-filepath = os.path.join(CWD, file)
-print(filepath)
+    outfile = 'Data/recipes_data_labelled.csv'
+    outfile_sample = 'Data/recipes_data_sample_labelled.csv'
 
-outfile = 'Data/recipes_data_labelled.csv'
-outfile_sample = 'Data/recipes_data_sample_labelled.csv'
+    df = pd.read_csv(filepath)
+    df = df[['title', 'ingredients','directions','NER']]
 
-df = pd.read_csv(filepath)
-df = df[['title', 'ingredients','directions','NER']]
+    labelled_df_ner = df.copy()
+    label_data_ner = labelled_df_ner.apply(Label_Data_Rule_Based, axis=1, result_type='expand')
+    labelled_df_ner = pd.concat([labelled_df_ner, label_data_ner], axis=1)
 
-labelled_df_ner = df.copy()
-label_data_ner = labelled_df_ner.apply(Label_Data_Rule_Based, axis=1, result_type='expand')
-labelled_df_ner = pd.concat([labelled_df_ner, label_data_ner], axis=1)
+    print("Data Labelled")
+    labelled_df_ner.to_csv(outfile, index=False)
+    labelled_df_ner.sample(n=200000, random_state=42).to_csv(outfile_sample, index=False)
 
-print("Data Labelled")
-labelled_df_ner.to_csv(outfile, index=False)
-labelled_df_ner.sample(n=200000, random_state=42).to_csv(outfile_sample, index=False)
-
-print("Files Saved")
+    print("Files Saved")
 
