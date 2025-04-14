@@ -9,21 +9,32 @@ def format_recipe_for_rag(row):
         "kidney_disease_safe", "ibs_safe", "cholesterol_friendly", "pcos_friendly",
         "gout_safe", "anemia_support", "thyroid_friendly", "acid_reflux_safe"
     ]
-    active_labels = [label for label in label_cols if row[label]]
+
+    active_labels = [label for label in label_cols if row.get(label)]
 
     try:
-        ingredients = eval(row["NER"])
+        ingredients = eval(row["NER"]) if isinstance(row["NER"], str) else []
     except Exception:
         ingredients = []
     ingredients_text = ", ".join(ingredients)
-    directions_text = "\n".join(eval(row["directions"])) if isinstance(row["directions"], str) else ""
+
+    try:
+        directions = eval(row["directions"]) if isinstance(row["directions"], str) else []
+    except Exception:
+        directions = []
+    directions_text = "\n".join(directions)
 
     return {
         "id": f"recipe_{row.name}",
-        "title": row["title"],
-        "text": f"Ingredients: {ingredients_text}\nInstructions: {directions_text}",
-        "labels": active_labels
+        "text": f"{row['title']}\n\nLabels: {', '.join(active_labels)}",
+        "metadata": {
+            "title": row["title"],
+            "labels": active_labels,
+            "ingredients": ingredients,
+            "instructions": directions
+        }
     }
+
 
 if __name__ == "__main__":
     CWD = os.getcwd()
@@ -35,7 +46,7 @@ if __name__ == "__main__":
 
     recipes_for_rag = df.apply(format_recipe_for_rag, axis=1).tolist()
 
-    output_path = "Data/Rag_recipies.json"
+    output_path = "Data/Rag_recipies.jsonl"
     with open(output_path, "w") as f:
         for recipe in recipes_for_rag:
             json.dump(recipe, f)

@@ -31,7 +31,7 @@ def Label_Data_Rule_Based(row):
     }
 
     # Diabetes
-    if any(k in ingredient_text for k in ['sugar', 'honey', 'corn syrup', 'sweetened', 'molasses']):
+    if any(k in ingredient_text for k in ['sugar', 'honey', 'corn syrup', 'sweetened', 'molasses', 'rice', 'noodles']):
         labels["diabetes_safe"] = False
 
     # Hypertension & Heart disease
@@ -90,7 +90,7 @@ def Label_Data_Rule_Based(row):
         labels["thyroid_friendly"] = False
 
     # Acid Reflux
-    if any(k in ingredient_text for k in ['tomato', 'citrus', 'chili', 'caffeine', 'chocolate']):
+    if any(k in ingredient_text for k in ['tomato', 'citrus', 'chili', 'caffeine', 'chocolate', 'vinegar']):
         labels["acid_reflux_safe"] = False
 
     return labels
@@ -113,7 +113,7 @@ if __name__ == "__main__":
 
     print("Data Labelled")
     labelled_df_ner.to_csv(outfile, index=False)
-    labelled_df_ner.sample(n=200000, random_state=42).to_csv(outfile_sample, index=False)
+    labelled_df_ner.sample(n=20000, random_state=42).to_csv(outfile_sample, index=False)
 
     print("Files Saved")
 
