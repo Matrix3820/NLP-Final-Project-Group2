@@ -46,7 +46,7 @@ if __name__ == "__main__":
 
     recipes_for_rag = df.apply(format_recipe_for_rag, axis=1).tolist()
 
-    output_path = "Data/Rag_recipies.jsonl"
+    output_path = "Data/Rag_Recipes.jsonl"
     with open(output_path, "w") as f:
         for recipe in recipes_for_rag:
             json.dump(recipe, f)
