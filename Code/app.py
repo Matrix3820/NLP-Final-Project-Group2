@@ -1,5 +1,5 @@
 import streamlit as st
-from RAG.llm3 import generate_medical_recipe_response, generate_llm_only_response
+from RAG.llm import generate_medical_recipe_response, generate_llm_only_response
 
 st.set_page_config(page_title="Medically Aware Recipe Assistant", layout="wide")
 

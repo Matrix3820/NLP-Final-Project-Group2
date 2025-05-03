@@ -299,7 +299,10 @@ if __name__ == "__main__":
     # user_query = "Generate a Thyroid friendly recipe for weight loss" # Both bad
     # user_query = "I have anemia. Generate a recipe for building muscle" #---------#
     # user_query = "Generate a recipe for someone with heart disease and cardiovascular issues" #----------best
-    user_query = "Generate a Recipe with Beef, Brocolli and Garlic" #--
+    # user_query = "Generate a Recipe with Beef, Brocolli and Garlic" #--
+
+    user_query = input("Enter your Query: Eg - Generate a recipe for someone with heart disease and cardiovascular issues")
+    print("You entered:", user_query)
 
     print("\n Running with RAG...")
     rag_response = generate_medical_recipe_response(user_query,)
