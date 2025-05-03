@@ -3,6 +3,39 @@ import json
 import pandas as pd
 
 def format_ingredients_for_rag(row):
+    """
+        Formats an ingredient row into a structured dictionary suitable for use in
+        a Retrieval-Augmented Generation (RAG) system.
+
+        This function converts each row of the ingredients dataset into a JSON-compatible
+        object containing an identifier, display text (combining the ingredient name and fact),
+        and metadata for downstream retrieval tasks.
+
+        Parameters
+        ----------
+        row : pd.Series
+            A row from a DataFrame with at least the following columns:
+            - 'ingredient': The name of the ingredient
+            - 'Fact': A brief medical or nutritional fact about the ingredient
+
+        Returns
+        -------
+        dict
+            A dictionary with the following structure:
+            {
+                "id": str,                # Unique identifier (e.g., "ingredient_5")
+                "text": str,              # Combined ingredient and fact string
+                "metadata": {
+                    "title": str,         # Ingredient name
+                    "fact": str           # Corresponding medical/nutritional fact
+                }
+            }
+
+        Notes
+        -----
+        - Assumes the DataFrame index or `row.name` is unique per row for ID generation.
+        - Intended for JSONL export to be used in vector databases or RAG pipelines.
+        """
     return {
         "id": f"ingredient_{row.name}",
         "text": f"{row['ingredient']} - {row['Fact']}",

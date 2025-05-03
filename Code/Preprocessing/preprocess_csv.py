@@ -4,6 +4,47 @@ import numpy as np
 import os
 
 def Label_Data_Rule_Based(row):
+    """
+        Applies rule-based labeling to a recipe's ingredients to determine dietary suitability
+        and health condition compatibility.
+
+        Parameters
+        ----------
+        row : pd.Series
+            A row from a DataFrame containing at least the column 'NER', which is expected
+            to be a stringified list of named entities (ingredients).
+
+        Returns
+        -------
+        dict
+            A dictionary with boolean flags or condition support flags for various health
+            conditions and dietary needs such as:
+            - diabetes_safe
+            - hypertension_safe
+            - heart_disease_safe
+            - pregnancy_safe
+            - weight_loss
+            - muscle_gain
+            - gluten_free_safe
+            - lactose_free_safe
+            - kidney_disease_safe
+            - ibs_safe
+            - cholesterol_friendly
+            - pcos_friendly
+            - gout_safe
+            - anemia_support
+            - thyroid_friendly
+            - acid_reflux_safe
+
+        Notes
+        -----
+        - The function uses keyword matching heuristics based on known dietary and
+          medical guidelines.
+        - It assumes the 'NER' column contains lowercase, comma-separated ingredients
+          in a stringified Python list format.
+        - If parsing fails, it defaults to an empty list of ingredients.
+        """
+
     try:
         ingredients = eval(row['NER'].lower())
     except Exception:

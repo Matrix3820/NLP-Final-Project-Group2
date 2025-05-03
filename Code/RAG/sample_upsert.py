@@ -12,12 +12,27 @@ PINECONE_API_KEY = os.getenv("PINECONE_API_KEY")
 PINECONE_ENV = os.getenv("PINECONE_ENVIRONMENT")
 RECIPE_INDEX_NAME = os.getenv("RECIPE_INDEX_NAME")
 FACTS_INDEX_NAME = os.getenv("FACTS_INDEX_NAME")
-# INDEX_NAME = "medically-aware-recipes"
 EMBEDDING_MODEL_NAME = os.getenv("EMBEDDING_MODEL_NAME")
 DIMENSION = int(os.getenv("DIMENSION"))
 BATCH_SIZE = 64
 
+"""
+Pinecone Ingestion Script for Medically Aware Recipe Generator (RAGnRecipe)
 
+This script initializes Pinecone indexes and ingests two types of data:
+1. Recipe data (containing ingredients and directions)
+2. Ingredient-level medical facts
+
+Each item is embedded using a SentenceTransformer model and upserted in batches
+to the appropriate Pinecone vector index. These indexes are used for retrieval
+in the RAG-based medical recipe generation system.
+
+Requirements:
+- Environment variables set via .env
+- Data files in JSONL format for recipes and ingredient facts
+- Pinecone account access and proper API key
+
+"""
 
 # ====== Load JSONL Data ======
 def load_jsonl(path):
